@@ -5,7 +5,7 @@
 
 {% block title %}Dashboard - Analytics{% endblock title %}
 
-<!-- {% block vendor_css %}
+{% block vendor_css %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'vendor/libs/apex-charts/apex-charts.css' %}" />
 {% endblock vendor_css %}
@@ -13,7 +13,7 @@
 {% block vendor_js %}
 {{ block.super }}
 <script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
-{% endblock vendor_js %} -->
+{% endblock vendor_js %} 
 
 {% block page_js %}
 {{ block.super }}
@@ -23,59 +23,73 @@
 {% block content %}
 <div class="row gy-6">
 
-<!-- Tile Cards -->
-  <div class="row g-2 mb-4">
-    <div class="col-6 col-md-2">
-      <div class="card shadow-sm border-0 text-center h-100">
-        <div class="card-body py-3">
-          <div class="fs-3 fw-bold text-primary">{{ locations_count }}</div>
-          <div class="text-muted small">Locations</div>
-        </div>
+<!-- Tile Cards in One Row -->
+<div class="row g-2 mb-4">
+  <div class="col-6 col-md-2">
+    <div class="card shadow-sm border-0 text-center h-100">
+      <div class="card-body py-3">
+        <div class="fs-3 fw-bold text-primary">{{ locations_count }}</div>
+        <div class="text-muted small">Locations</div>
       </div>
     </div>
-      <div class="col-6 col-md-3">
-      <div class="card shadow-sm border-0 text-center h-100">
-        <div class="card-body py-3">
-          <div class="fs-3 fw-bold text-success">{{ incidents_count }}</div>
-          <div class="text-muted small">Incidents</div>
-        </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card shadow-sm border-0 text-center h-100">
+      <div class="card-body py-3">
+        <div class="fs-3 fw-bold text-danger">{{ incidents_count }}</div>
+        <div class="text-muted small">Incidents</div>
       </div>
     </div>
-  <div class="row g-2 mb-4">
-    <div class="col-6 col-md-2">
-      <div class="card shadow-sm border-0 text-center h-100">
-        <div class="card-body py-3">
-          <div class="fs-3 fw-bold text-primary">{{ fire_stations_count }}</div>
-          <div class="text-muted small">Fire Stations</div>
-        </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card shadow-sm border-0 text-center h-100">
+      <div class="card-body py-3">
+        <div class="fs-3 fw-bold text-primary">{{ fire_stations_count }}</div>
+        <div class="text-muted small">Fire Stations</div>
       </div>
     </div>
-  <div class="row g-2 mb-4">
-    <div class="col-6 col-md-2">
-      <div class="card shadow-sm border-0 text-center h-100">
-        <div class="card-body py-3">
-          <div class="fs-3 fw-bold text-primary">{{ firefighters_count }}</div>
-          <div class="text-muted small">Fire Fighters</div>
-        </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card shadow-sm border-0 text-center h-100">
+      <div class="card-body py-3">
+        <div class="fs-3 fw-bold text-primary">{{ firefighters_count }}</div>
+        <div class="text-muted small">Fire Fighters</div>
       </div>
     </div>
-  <div class="row g-2 mb-4">
-    <div class="col-6 col-md-2">
-      <div class="card shadow-sm border-0 text-center h-100">
-        <div class="card-body py-3">
-          <div class="fs-3 fw-bold text-primary">{{ fire_trucks_count }}</div>
-          <div class="text-muted small">Fire Trucks</div>
-        </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card shadow-sm border-0 text-center h-100">
+      <div class="card-body py-3">
+        <div class="fs-3 fw-bold text-primary">{{ fire_trucks_count }}</div>
+        <div class="text-muted small">Fire Trucks</div>
       </div>
     </div>
-  <div class="row g-2 mb-4">
-    <div class="col-6 col-md-2">
-      <div class="card shadow-sm border-0 text-center h-100">
-        <div class="card-body py-3">
-          <div class="fs-3 fw-bold text-primary">{{ weather_conditions_count }}</div>
-          <div class="text-muted small">Weather Conditions</div>
-        </div>
+  </div>
+  <div class="col-6 col-md-2">
+    <div class="card shadow-sm border-0 text-center h-100">
+      <div class="card-body py-3">
+        <div class="fs-3 fw-bold text-primary">{{ weather_conditions_count }}</div>
+        <div class="text-muted small">Weather Conditions</div>
       </div>
     </div>
+  </div>
 </div>
-{% endblock %}
+
+<!-- Pie Chart and Line Chart -->
+<div class="row g-2 mb-4">
+  <div class="col-md-4">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-header fw-bold">Severity</div>
+      <div class="card-body"><canvas id="pieChart" style="height:260px"></canvas></div>
+    </div>
+  </div>
+  
+  <div class="col-md-8">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-header fw-bold">Incidents</div>
+      <div class="card-body"><canvas id="lineChart" style="height:260px"></canvas></div>
+    </div>
+  </div>
+</div>  
+{% endblock content %}
+

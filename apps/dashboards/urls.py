@@ -5,8 +5,7 @@ from .views import (
     PieCountbySeverity,
     LineCountbyMonth,
     MultilineIncidentTop3Country,
-    multipleBarbySeverity,
-    FireStationView,)
+    multipleBarbySeverity,)
 
 # urlpatterns = [
 #     path(
@@ -24,5 +23,4 @@ urlpatterns = [
     path("lineChart/", LineCountbyMonth, name="chart"),
     path("multilineChart/", MultilineIncidentTop3Country, name="chart"),
     path("multiBarChart/", multipleBarbySeverity, name="chart"),
-    # path("/", FireStationView.as_view(), name="fire_stations_count"),
     ]

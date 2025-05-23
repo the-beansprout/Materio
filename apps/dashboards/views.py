@@ -186,9 +186,3 @@ def multipleBarbySeverity(request):
             result[level] = dict(sorted(result[level].items()))
 
     return JsonResponse(result)
-
-class FireStationView():
-    model = FireStation
-    context_object_name = "fire_stations"
-    template_name = "firestation_list.html"
-    paginate_by = 5
