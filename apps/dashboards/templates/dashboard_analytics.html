@@ -79,17 +79,31 @@
 <div class="row g-2 mb-4">
   <div class="col-md-4">
     <div class="card shadow-sm border-0 h-100">
-      <div class="card-header fw-bold">Severity</div>
+      <div class="card-header fw-bold">Severity Distribution</div>
       <div class="card-body"><canvas id="pieChart" style="height:260px"></canvas></div>
     </div>
   </div>
   
   <div class="col-md-8">
     <div class="card shadow-sm border-0 h-100">
-      <div class="card-header fw-bold">Incidents</div>
+      <div class="card-header fw-bold">Incidents by Month</div>
       <div class="card-body"><canvas id="lineChart" style="height:260px"></canvas></div>
     </div>
   </div>
 </div>  
-{% endblock content %}
+<div class="row g-2 mb-4">
+  <div class="col-md-6">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-header fw-bold">Incidents by Country (Monthly)</div>
+      <div class="card-body"><canvas id="multiLineChart" style="height:260px"></canvas></div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-header fw-bold">Incidents by Severity (Monthly)</div>
+      <div class="card-body"><canvas id="multiBarChart" style="height:260px"></canvas></div>
+    </div>
+  </div>
+</div>
 
+{% endblock content %}
