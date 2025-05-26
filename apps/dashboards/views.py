@@ -22,6 +22,8 @@ class DashboardsView(TemplateView):
         context['weather_conditions_count'] = WeatherConditions.objects.count()
 
         return context
+    def get_queryset(self, *args, **kwargs):
+        pass
 
 from django.db import connection
 from django.http import JsonResponse
@@ -32,8 +34,8 @@ from .models import Locations, Incident, FireStation, Firefighters, FireTruck, W
 
 def PieCountbySeverity(request):
     query = """
-    SELECT severity_level, COUNT (*) as count
-    FROM fire_incident
+    SELECT severity_level, COUNT(*) as count
+    FROM dashboards_incident
     GROUP BY severity_level
     """
     data = {}
@@ -92,17 +94,17 @@ def MultilineIncidentTop3Country(request):
         strftime('%m', fi.date_time) AS month,
         COUNT(fi.id) AS incident_count
     FROM
-        fire_incident fi
+        dashboards_incident fi
     JOIN
-        fire_locations fl ON fi.location_id = fl.id
+        dashboards_locations fl ON fi.location_id = fl.id
     WHERE
         fl.country IN (
             SELECT
                 fl_top.country
             FROM
-                fire_incident fi_top
+                dashboards_incident fi_top
             JOIN
-                fire_locations fl_top ON fi_top.location_id = fl_top.id
+                dashboards_locations fl_top ON fi_top.location_id = fl_top.id
             WHERE
                 strftime('%Y', fi_top.date_time) = strftime('%Y', 'now')
             GROUP BY
@@ -116,7 +118,8 @@ def MultilineIncidentTop3Country(request):
         fl.country, month
     ORDER BY
         fl.country, month;
-    """
+"""
+
 
     with connection.cursor() as cursor:
         cursor.execute(query)
@@ -160,9 +163,10 @@ def multipleBarbySeverity(request):
         strftime('%m', fi.date_time) AS month,
         COUNT(fi.id) AS incident_count
     FROM
-        fire_incident fi
+        dashboards_incident fi
     GROUP BY fi.severity_level, month
-    """
+"""
+
 
     with connection.cursor() as cursor:
         cursor.execute(query)

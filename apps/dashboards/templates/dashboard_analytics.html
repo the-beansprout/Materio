@@ -15,10 +15,7 @@
 <script src="{% static 'vendor/libs/apex-charts/apexcharts.js' %}"></script>
 {% endblock vendor_js %} 
 
-{% block page_js %}
-{{ block.super }}
-<script src="{% static 'js/dashboards-analytics.js' %}"></script>
-{% endblock page_js %}
+
 
 {% block content %}
 <div class="row gy-6">
@@ -107,3 +104,153 @@
 </div>
 
 {% endblock content %}
+
+{% block page_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+function loadChartData() {
+  // Pie Chart
+  fetch("/pieChart/")
+    .then(res => res.json())
+    .then(data => {
+      new Chart(document.getElementById("pieChart"), {
+        type: "doughnut",
+        data: {
+          labels: Object.keys(data),
+          datasets: [{
+            data: Object.values(data),
+            backgroundColor: [
+              "#9155FD", "#56CA00", "#FFB400", "#16B1FF", "#FF4C51"
+            ],
+            borderWidth: 0,
+            hoverOffset: 8,
+          }]
+        },
+        options: {
+          cutout: "70%",
+          plugins: {
+            legend: {
+              display: true,
+              position: "bottom",
+              labels: {
+                color: "#6F6B7D",
+                font: { family: "Public Sans, sans-serif", size: 14 }
+              }
+            }
+          }
+        }
+      });
+    });
+
+  // Line Chart
+  fetch("/lineChart/")
+    .then(res => res.json())
+    .then(data => {
+      const months = Object.keys(data);
+      const counts = Object.values(data);
+      new Chart(document.getElementById("lineChart"), {
+        type: "line",
+        data: {
+          labels: months,
+          datasets: [{
+            label: "Incidents",
+            data: counts,
+            borderColor: "#9155FD",
+            backgroundColor: "rgba(145,85,253,0.08)",
+            pointBackgroundColor: "#fff",
+            pointBorderColor: "#9155FD",
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: "#6F6B7D" } },
+            y: { grid: { color: "#F0F0F0" }, ticks: { color: "#6F6B7D" } }
+          }
+        }
+      });
+    });
+
+  // MultiLine Chart
+  fetch("/multiLineChart/")
+    .then(res => res.json())
+    .then(data => {
+      const months = Object.keys(Object.values(data)[0]);
+      const colors = ["#9155FD", "#56CA00", "#FFB400", "#16B1FF", "#FF4C51"];
+      const datasets = Object.keys(data).map((country, i) => ({
+        label: country,
+        data: months.map(month => data[country][month] || 0),
+        borderColor: colors[i % colors.length],
+        backgroundColor: colors[i % colors.length] + "33",
+        tension: 0.4,
+        fill: false,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+      }));
+      new Chart(document.getElementById("multiLineChart"), {
+        type: "line",
+        data: { labels: months, datasets },
+        options: {
+          plugins: {
+            legend: {
+              display: true,
+              position: "bottom",
+              labels: {
+                color: "#6F6B7D",
+                font: { family: "Public Sans, sans-serif", size: 14 }
+              }
+            }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: "#6F6B7D" } },
+            y: { grid: { color: "#F0F0F0" }, ticks: { color: "#6F6B7D" } }
+          }
+        }
+      });
+    });
+
+  // MultiBar Chart
+  fetch("/multiBarChart/")
+    .then(res => res.json())
+    .then(data => {
+      const months = Object.keys(Object.values(data)[0]);
+      const colors = ["#9155FD", "#56CA00", "#FFB400", "#16B1FF", "#FF4C51"];
+      const datasets = Object.keys(data).map((severity, i) => ({
+        label: severity,
+        data: months.map(month => data[severity][month] || 0),
+        backgroundColor: colors[i % colors.length] + "CC",
+        borderRadius: 8,
+        barPercentage: 0.7,
+        categoryPercentage: 0.5,
+      }));
+      new Chart(document.getElementById("multiBarChart"), {
+        type: "bar",
+        data: { labels: months, datasets },
+        options: {
+          plugins: {
+            legend: {
+              display: true,
+              position: "bottom",
+              labels: {
+                color: "#6F6B7D",
+                font: { family: "Public Sans, sans-serif", size: 14 }
+              }
+            }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: "#6F6B7D" } },
+            y: { grid: { color: "#F0F0F0" }, ticks: { color: "#6F6B7D" } }
+          }
+        }
+      });
+    });
+}
+document.addEventListener('DOMContentLoaded', loadChartData);
+</script>
+{% endblock page_js %}
